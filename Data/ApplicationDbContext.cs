@@ -14,5 +14,6 @@ namespace WebApplication1.Data
         {
         }
         public DbSet<WebApplication1.Models.Image> Image { get; set; }
+        public DbSet<WebApplication1.Models.Post> Post { get; set; }
     }
 }
