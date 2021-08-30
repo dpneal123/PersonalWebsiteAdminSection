@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.PostDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Published)
+                @Html.DisplayNameFor(model => model.PublishPost)
             </th>
             <th></th>
         </tr>
@@ -40,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.PostDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Published)
+                @Html.DisplayFor(modelItem => item.PublishPost)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |

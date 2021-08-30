@@ -15,7 +15,7 @@ namespace WebApplication1.Models
 
     public string PostDate { get; set; }
 
-    public bool Published { get; set; }
+    public bool PublishPost { get; set; }
 
     public Post()
     {

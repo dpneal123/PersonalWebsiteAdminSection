@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Data;
 
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210829232720_PostUpdateFour")]
+    partial class PostUpdateFour
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,39 +219,6 @@ namespace WebApplication1.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.Event", b =>
-                {
-                    b.Property<int>("EventId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("EventBody")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EventEnd")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EventLocation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EventStart")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EventTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EventType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PublishEvent")
-                        .HasColumnType("bit");
-
-                    b.HasKey("EventId");
-
-                    b.ToTable("Event");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Image", b =>
