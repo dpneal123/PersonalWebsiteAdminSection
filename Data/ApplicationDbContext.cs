@@ -16,5 +16,6 @@ namespace WebApplication1.Data
         public DbSet<WebApplication1.Models.Image> Image { get; set; }
         public DbSet<WebApplication1.Models.Post> Post { get; set; }
         public DbSet<WebApplication1.Models.Event> Event { get; set; }
+        public DbSet<WebApplication1.Models.EventDuty> EventDuty { get; set; }
     }
 }

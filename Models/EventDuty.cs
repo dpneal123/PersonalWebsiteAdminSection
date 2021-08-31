@@ -11,6 +11,8 @@ namespace WebApplication1.Models
 
         public int EventDutyId { get; set; }
         public int EventId { get; set; }
+
+        public Event Event { get; set; }
         public string DutyDescription { get; set; }
 
         public EventDuty()

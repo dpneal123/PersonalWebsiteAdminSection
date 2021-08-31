@@ -33,6 +33,9 @@
                 <span asp-validation-for="EventLocation" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <a class="btn btn-secondary" asp-area="" asp-controller="EventDuties" asp-action="Create">Edit Duties</a>
+            </div>
+            <div class="form-group">
                 <label asp-for="EventStart" class="control-label"></label>
                 <input type="date" asp-for="EventStart" class="form-control" />
                 <span asp-validation-for="EventStart" class="text-danger"></span>
