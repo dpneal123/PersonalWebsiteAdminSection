@@ -48,7 +48,7 @@ namespace WebApplication1.Controllers
         // GET: EventDuties/Create
         public IActionResult Create()
         {
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId");
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace WebApplication1.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId", eventDuty.EventId);
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle", eventDuty.EventId);
             return View(eventDuty);
         }
 
@@ -82,7 +82,7 @@ namespace WebApplication1.Controllers
             {
                 return NotFound();
             }
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId", eventDuty.EventId);
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle", eventDuty.EventId);
             return View(eventDuty);
         }
 
@@ -118,7 +118,7 @@ namespace WebApplication1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventId", eventDuty.EventId);
+            ViewData["EventId"] = new SelectList(_context.Event, "EventId", "EventTitle", eventDuty.EventId);
             return View(eventDuty);
         }
 
