@@ -7,10 +7,11 @@ namespace WebApplication1.Models
 {
     public class Event
     {
-
         public int EventId { get; set; }
 
-        public string EventType { get; set; }
+        public int EventTypeId { get; set; }
+
+        public EventType EventType { get; set; }
 
         public string EventTitle { get; set; }
 

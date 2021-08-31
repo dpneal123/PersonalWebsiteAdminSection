@@ -2,32 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
-using WebApplication1.Models;
 
-namespace WebApplication1.Controllers
+namespace WebApplication1.Models
 {
-    public class EventsController : Controller
+    public class EventTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EventsController(ApplicationDbContext context)
+        public EventTypesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Events
+        // GET: EventTypes
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Event.Include(e => e.EventType);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.EventType.ToListAsync());
         }
 
-        // GET: Events/Details/5
+        // GET: EventTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,44 +32,39 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event
-                .FirstOrDefaultAsync(m => m.EventId == id);
-            if (@event == null)
+            var eventType = await _context.EventType
+                .FirstOrDefaultAsync(m => m.EventTypeId == id);
+            if (eventType == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(eventType);
         }
 
-        // GET: Events/Create
-        [Authorize]
+        // GET: EventTypes/Create
         public IActionResult Create()
         {
-            ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "EventTypeName");
             return View();
         }
 
-        // POST: Events/Create
+        // POST: EventTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<IActionResult> Create([Bind("EventId,EventTypeId,EventTitle,EventBody,EventLocation,EventStart,EventEnd,PublishEvent")] Event @event)
+        public async Task<IActionResult> Create([Bind("EventTypeId,EventTypeName,EventDisplayOrder,EventTypeActive")] EventType eventType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
+                _context.Add(eventType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "EventTypeName");
-            return View(@event);
+            return View(eventType);
         }
 
-        // GET: Events/Edit/5
-        [Authorize]
+        // GET: EventTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,23 +72,22 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event.FindAsync(id);
-            if (@event == null)
+            var eventType = await _context.EventType.FindAsync(id);
+            if (eventType == null)
             {
                 return NotFound();
             }
-            return View(@event);
+            return View(eventType);
         }
 
-        // POST: Events/Edit/5
+        // POST: EventTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventTypeId,EventTitle,EventBody,EventLocation,EventStart,EventEnd,PublishEvent")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("EventTypeId,EventTypeName,EventDisplayOrder,EventTypeActive")] EventType eventType)
         {
-            if (id != @event.EventId)
+            if (id != eventType.EventTypeId)
             {
                 return NotFound();
             }
@@ -105,12 +96,12 @@ namespace WebApplication1.Controllers
             {
                 try
                 {
-                    _context.Update(@event);
+                    _context.Update(eventType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.EventId))
+                    if (!EventTypeExists(eventType.EventTypeId))
                     {
                         return NotFound();
                     }
@@ -121,11 +112,10 @@ namespace WebApplication1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(eventType);
         }
 
-        // GET: Events/Delete/5
-        [Authorize]
+        // GET: EventTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,31 +123,30 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event
-                .FirstOrDefaultAsync(m => m.EventId == id);
-            if (@event == null)
+            var eventType = await _context.EventType
+                .FirstOrDefaultAsync(m => m.EventTypeId == id);
+            if (eventType == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(eventType);
         }
 
-        // POST: Events/Delete/5
+        // POST: EventTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Event.FindAsync(id);
-            _context.Event.Remove(@event);
+            var eventType = await _context.EventType.FindAsync(id);
+            _context.EventType.Remove(eventType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EventExists(int id)
+        private bool EventTypeExists(int id)
         {
-            return _context.Event.Any(e => e.EventId == id);
+            return _context.EventType.Any(e => e.EventTypeId == id);
         }
     }
 }

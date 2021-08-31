@@ -13,9 +13,8 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="EventType" class="control-label"></label>
-                <input asp-for="EventType" class="form-control" />
-                <span asp-validation-for="EventType" class="text-danger"></span>
+                <label asp-for="EventTypeId" class="control-label"></label>
+                <select asp-for="EventTypeId" class="form-control" asp-items="ViewBag.EventTypeId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="EventTitle" class="control-label"></label>
@@ -31,9 +30,6 @@
                 <label asp-for="EventLocation" class="control-label"></label>
                 <input asp-for="EventLocation" class="form-control" />
                 <span asp-validation-for="EventLocation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <a class="btn btn-secondary" asp-area="" asp-controller="EventDuties" asp-action="Create">Edit Duties</a>
             </div>
             <div class="form-group">
                 <label asp-for="EventStart" class="control-label"></label>

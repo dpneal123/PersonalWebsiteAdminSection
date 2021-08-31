@@ -9,6 +9,12 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<div>
+    <a class="btn btn-secondary" asp-area="" asp-controller="EventDuties" asp-action="Create">Edit Duties</a>
+</div>
+<div>
+    <a class="btn btn-secondary" asp-area="" asp-controller="EventTypes" asp-action="Index">Manage Event Types</a>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -37,35 +43,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventBody)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventLocation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EventEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PublishEvent)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventBody)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublishEvent)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
