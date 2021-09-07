@@ -1,0 +1,74 @@
+﻿@model IEnumerable<WebApplication1.Models.Project>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="flex-fill">
+    <div>
+        <a class="btn btn-secondary" asp-area="" asp-controller="ProjectCategories" asp-action="Index">Link Categories</a>
+    </div>
+    <div>
+        <a class="btn btn-secondary" asp-area="" asp-controller="ProjectFrameworks" asp-action="Index">Link Frameworks</a>
+    </div>
+    <div>
+        <a class="btn btn-secondary" asp-area="" asp-controller="Categories" asp-action="Index">Edit Categories</a>
+    </div>
+    <div>
+        <a class="btn btn-secondary" asp-area="" asp-controller="Frameworks" asp-action="Index">Edit Frameworks</a>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectShortDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectLongDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectPostedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectCreationDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectShortDesc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectLongDesc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectPostedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectCreationDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProjectId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ProjectId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ProjectId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

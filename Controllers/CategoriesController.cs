@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,23 +10,23 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    public class EventsController : Controller
+    public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EventsController(ApplicationDbContext context)
+        public CategoriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Events
+        // GET: Categories
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Event.Include(e => e.EventType);
+            var applicationDbContext = _context.Category.Include(p => p.Colour);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Events/Details/5
+        // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,45 +34,43 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event
-                .Include(e => e.EventType)
-                .FirstOrDefaultAsync(m => m.EventId == id);
-            if (@event == null)
+            var category = await _context.Category
+                .Include(p => p.Colour)
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(category);
         }
 
-        // GET: Events/Create
-        [Authorize]
+        // GET: Categories/Create
         public IActionResult Create()
         {
-            ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "EventTypeName");
+            ViewData["CategoryColourId"] = new SelectList(_context.Colour, "ColourId", "ColourName");
             return View();
         }
 
-        // POST: Events/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<IActionResult> Create([Bind("EventId,EventTypeId,EventTitle,EventBody,EventLocation,EventStart,EventEnd,PublishEvent")] Event @event)
+        public async Task<IActionResult> Create([Bind("CategoryId,CategoryName,ColourId")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
+                _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "EventTypeName");
-            return View(@event);
+
+            ViewData["CategoryColourId"] = new SelectList(_context.Colour, "ColourId", "ColourName", category.ColourId);
+            return View(category);
         }
 
-        // GET: Events/Edit/5
-        [Authorize]
+        // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,24 +78,23 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event.FindAsync(id);
-            if (@event == null)
+            var category = await _context.Category.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "EventTypeName");
-            return View(@event);
+            ViewData["CategoryColourId"] = new SelectList(_context.Colour, "ColourId", "ColourName", category.ColourId);
+            return View(category);
         }
 
-        // POST: Events/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventTypeId,EventTitle,EventBody,EventLocation,EventStart,EventEnd,PublishEvent")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName,ColourId")] Category category)
         {
-            if (id != @event.EventId)
+            if (id != category.CategoryId)
             {
                 return NotFound();
             }
@@ -107,12 +103,12 @@ namespace WebApplication1.Controllers
             {
                 try
                 {
-                    _context.Update(@event);
+                    _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.EventId))
+                    if (!CategoryExists(category.CategoryId))
                     {
                         return NotFound();
                     }
@@ -123,12 +119,11 @@ namespace WebApplication1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "EventTypeName");
-            return View(@event);
+            ViewData["CategoryColourId"] = new SelectList(_context.Colour, "ColourId", "ColourName", category.ColourId);
+            return View(category);
         }
 
-        // GET: Events/Delete/5
-        [Authorize]
+        // GET: Categories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,31 +131,31 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event
-                .FirstOrDefaultAsync(m => m.EventId == id);
-            if (@event == null)
+            var category = await _context.Category
+                .Include(p => p.Colour)
+                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(category);
         }
 
-        // POST: Events/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Event.FindAsync(id);
-            _context.Event.Remove(@event);
+            var category = await _context.Category.FindAsync(id);
+            _context.Category.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EventExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Event.Any(e => e.EventId == id);
+            return _context.Category.Any(e => e.CategoryId == id);
         }
     }
 }

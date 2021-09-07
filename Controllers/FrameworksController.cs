@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,23 +10,22 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    public class EventsController : Controller
+    public class FrameworksController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EventsController(ApplicationDbContext context)
+        public FrameworksController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Events
+        // GET: Frameworks
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Event.Include(e => e.EventType);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Framework.ToListAsync());
         }
 
-        // GET: Events/Details/5
+        // GET: Frameworks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,45 +33,39 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event
-                .Include(e => e.EventType)
-                .FirstOrDefaultAsync(m => m.EventId == id);
-            if (@event == null)
+            var framework = await _context.Framework
+                .FirstOrDefaultAsync(m => m.FrameworkId == id);
+            if (framework == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(framework);
         }
 
-        // GET: Events/Create
-        [Authorize]
+        // GET: Frameworks/Create
         public IActionResult Create()
         {
-            ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "EventTypeName");
             return View();
         }
 
-        // POST: Events/Create
+        // POST: Frameworks/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<IActionResult> Create([Bind("EventId,EventTypeId,EventTitle,EventBody,EventLocation,EventStart,EventEnd,PublishEvent")] Event @event)
+        public async Task<IActionResult> Create([Bind("FrameworkId,FrameworkName,FrameworkIconLoc")] Framework framework)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
+                _context.Add(framework);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "EventTypeName");
-            return View(@event);
+            return View(framework);
         }
 
-        // GET: Events/Edit/5
-        [Authorize]
+        // GET: Frameworks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,24 +73,22 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event.FindAsync(id);
-            if (@event == null)
+            var framework = await _context.Framework.FindAsync(id);
+            if (framework == null)
             {
                 return NotFound();
             }
-            ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "EventTypeName");
-            return View(@event);
+            return View(framework);
         }
 
-        // POST: Events/Edit/5
+        // POST: Frameworks/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventTypeId,EventTitle,EventBody,EventLocation,EventStart,EventEnd,PublishEvent")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("FrameworkId,FrameworkName,FrameworkIconLoc")] Framework framework)
         {
-            if (id != @event.EventId)
+            if (id != framework.FrameworkId)
             {
                 return NotFound();
             }
@@ -107,12 +97,12 @@ namespace WebApplication1.Controllers
             {
                 try
                 {
-                    _context.Update(@event);
+                    _context.Update(framework);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.EventId))
+                    if (!FrameworkExists(framework.FrameworkId))
                     {
                         return NotFound();
                     }
@@ -123,12 +113,10 @@ namespace WebApplication1.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EventTypeId"] = new SelectList(_context.EventType, "EventTypeId", "EventTypeName");
-            return View(@event);
+            return View(framework);
         }
 
-        // GET: Events/Delete/5
-        [Authorize]
+        // GET: Frameworks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,31 +124,30 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Event
-                .FirstOrDefaultAsync(m => m.EventId == id);
-            if (@event == null)
+            var framework = await _context.Framework
+                .FirstOrDefaultAsync(m => m.FrameworkId == id);
+            if (framework == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(framework);
         }
 
-        // POST: Events/Delete/5
+        // POST: Frameworks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Event.FindAsync(id);
-            _context.Event.Remove(@event);
+            var framework = await _context.Framework.FindAsync(id);
+            _context.Framework.Remove(framework);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EventExists(int id)
+        private bool FrameworkExists(int id)
         {
-            return _context.Event.Any(e => e.EventId == id);
+            return _context.Framework.Any(e => e.FrameworkId == id);
         }
     }
 }

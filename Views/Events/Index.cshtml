@@ -19,7 +19,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.EventType)
+                @Html.DisplayNameFor(model => model.EventType.EventTypeName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EventTitle)
@@ -47,7 +47,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EventType)
+                    @Html.DisplayFor(modelItem => item.EventType.EventTypeName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.EventTitle)
