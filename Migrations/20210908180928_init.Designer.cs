@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Data;
 
-namespace WebApplication1.Data.Migrations
+namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210903155155_ProjectLinks")]
-    partial class ProjectLinks
+    [Migration("20210908180928_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -228,13 +228,10 @@ namespace WebApplication1.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryColourId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ColourId")
+                    b.Property<int>("ColourId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ProjectId")
@@ -537,7 +534,9 @@ namespace WebApplication1.Data.Migrations
                 {
                     b.HasOne("WebApplication1.Models.Colour", "Colour")
                         .WithMany()
-                        .HasForeignKey("ColourId");
+                        .HasForeignKey("ColourId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebApplication1.Models.Project", null)
                         .WithMany("Categories")

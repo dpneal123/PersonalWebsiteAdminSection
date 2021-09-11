@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Controllers/EventDutiesController.cs~371b24c (Updated controller to pass EventTitle as the display value instead of EventId.  Need to update views to display the same)

@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Data;
 
-namespace WebApplication1.Data.Migrations
+namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210829220500_PostsVersionTwo")]
-    partial class PostsVersionTwo
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -221,6 +219,148 @@ namespace WebApplication1.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ColourId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryId");
+
+                    b.HasIndex("ColourId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Colour", b =>
+                {
+                    b.Property<int>("ColourId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ColourCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ColourName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ColourId");
+
+                    b.ToTable("Colour");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Event", b =>
+                {
+                    b.Property<int>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("EventBody")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EventEnd")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EventLocation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EventStart")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EventTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EventTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("PublishEvent")
+                        .HasColumnType("bit");
+
+                    b.HasKey("EventId");
+
+                    b.HasIndex("EventTypeId");
+
+                    b.ToTable("Event");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.EventDuty", b =>
+                {
+                    b.Property<int>("EventDutyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DutyDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EventDutyId");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("EventDuty");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.EventType", b =>
+                {
+                    b.Property<int>("EventTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EventDisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EventTypeActive")
+                        .HasColumnType("int");
+
+                    b.Property<string>("EventTypeName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EventTypeId");
+
+                    b.ToTable("EventType");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Framework", b =>
+                {
+                    b.Property<int>("FrameworkId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FrameworkIconLoc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FrameworkName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FrameworkId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Framework");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.Image", b =>
                 {
                     b.Property<int>("Id")
@@ -258,12 +398,83 @@ namespace WebApplication1.Data.Migrations
                     b.Property<string>("PostTitle")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Published")
-                        .HasColumnType("int");
+                    b.Property<bool>("PublishPost")
+                        .HasColumnType("bit");
 
                     b.HasKey("PostId");
 
                     b.ToTable("Post");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Project", b =>
+                {
+                    b.Property<int>("ProjectId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ProjectCreationDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectLongDesc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectPostedDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectShortDesc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProjectId");
+
+                    b.ToTable("Project");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.ProjectCategory", b =>
+                {
+                    b.Property<int>("ProjCatId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjCatId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectCategory");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.ProjectFramework", b =>
+                {
+                    b.Property<int>("ProjFrameId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FrameworkId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjFrameId");
+
+                    b.HasIndex("FrameworkId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectFramework");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -315,6 +526,95 @@ namespace WebApplication1.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Category", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Colour", "Colour")
+                        .WithMany()
+                        .HasForeignKey("ColourId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication1.Models.Project", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("ProjectId");
+
+                    b.Navigation("Colour");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Event", b =>
+                {
+                    b.HasOne("WebApplication1.Models.EventType", "EventType")
+                        .WithMany()
+                        .HasForeignKey("EventTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EventType");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.EventDuty", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Framework", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Project", null)
+                        .WithMany("Frameworks")
+                        .HasForeignKey("ProjectId");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.ProjectCategory", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication1.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.ProjectFramework", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Framework", "Framework")
+                        .WithMany()
+                        .HasForeignKey("FrameworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication1.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Framework");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Project", b =>
+                {
+                    b.Navigation("Categories");
+
+                    b.Navigation("Frameworks");
                 });
 #pragma warning restore 612, 618
         }
